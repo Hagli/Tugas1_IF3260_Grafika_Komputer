@@ -54,6 +54,11 @@ function render() {
     for (let i=0; i < lines; i++) {
         drawLine(lines_vertices[i], lines_colors[i]);
     }
+
+    // rectangles
+    for (let i=0; i < rectangles; i++) {
+        drawRectangle(rectangles_vertices[i], rectangles_colors[i]);
+    }
 }
 
 function main() {

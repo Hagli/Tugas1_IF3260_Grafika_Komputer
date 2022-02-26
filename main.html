@@ -3,12 +3,23 @@
 </head>
 
 <body>
-    <label>Tugas 1</label>
-    <!--Cara inputnya tidak bagus, tapi ku gak kepikiran cara yang lebih baik sekarang, Galih-->
-    <button onclick="addLine()">Line</button>
-    <button onclick="">Rectangle</button>
-    <div class="card">
-        <canvas id="c"></canvas>
+    <div class="row">
+        <div class="column">
+            <h1>BA-CAD</h1>
+            <p>Beginner Amateur</p>
+            <p>Computer Aided Design</p>
+        </div>
+        <div class="column">
+            <div class="card">
+                <canvas id="c"></canvas>
+            </div>
+        </div>
+        <div class="column">
+            <div id="model">
+                <button onclick="addLine()">Line</button>
+                <button onclick="addRectangle()">Rectangle</button>
+            </div>
+        </div>
     </div>
     <script id="vertex-shader-2d" type="notjs">
         attribute vec2 a_position;
@@ -46,4 +57,5 @@ for webgl-utils, m3, m4, and webgl-lessons-ui.
 -->
     <script src="./main.js"></script>
     <script src="./lines.js"></script>
+    <script src="./rectangles.js"></script>
 </body>
