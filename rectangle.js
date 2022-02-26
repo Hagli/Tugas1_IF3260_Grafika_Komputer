@@ -4,12 +4,10 @@ var rectangles = 0;
 var rectangles_vertices = [];
 var rectangles_colors = [];
 
-function addRectangle() {
+function addRectangle(start, edge_size) {
   rectangles++;
 
-  var x1 = prompt("Input start point x");
-  var y1 = prompt("Input start point y");
-  var edge_size = prompt("Input edge size");
+  var x1 = start[0]; var y1 = start[1];  
 
   var x2 = Number(x1) + Number(edge_size);
   x2 = String(x2);

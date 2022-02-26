@@ -1,5 +1,7 @@
 "use strict"
 
+var n_polygon; // number of vertex
+
 var polygons = 0;
 var polygons_vertices = [];
 var polygons_colors = [];
@@ -7,14 +9,11 @@ var polygons_colors = [];
 function addPolygon() {
   polygons++;
 
-  var n = prompt("Input number of vertex");
-  n = Number(n);
+  const args = arguments;
 
   var toPush = [];
-  for (let i = 0; i < n; i++) {
-    var temp = prompt("Input point x");
-    var temp2 = prompt("Input point y");
-    toPush.push(temp, temp2);
+  for (let i = 0; i < args.length; i++) {
+    toPush.push(...args[i]);
   }
 
   // vertices

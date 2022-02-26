@@ -3,6 +3,8 @@
 
 var gl;
 var colorUniformLocation;
+var model = 1; // default line
+var point_clicks = [];
 
 function createShader(gl, type, source) {
     var shader = gl.createShader(type);
@@ -47,6 +49,19 @@ function resizeCanvasToDisplaySize(canvas) {
     }
 
     return needResize;
+}
+
+function chooseModel(idx) {
+    model = idx; 
+    point_clicks = [];
+}
+
+function getCursorPosition(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor(evt.clientX - rect.left);
+    const y = evt.clientY - rect.top;
+
+    return [x, y];
 }
 
 function render() {
@@ -126,6 +141,37 @@ function main() {
 
     // set the resolution
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    
+    canvas.addEventListener('click', (evt) => {
+        point_clicks.push(getCursorPosition(canvas, evt));
+
+        switch (model) {
+            case 1:
+                if (point_clicks.length === 2) {
+                    addLine(point_clicks[0], point_clicks[1]);
+
+                    point_clicks = [];
+                }
+                break;
+            case 2:
+                if (point_clicks.length === 1) {
+                    var edge_size = prompt("Input edge size");
+                    addRectangle(point_clicks[0], edge_size);
+
+                    point_clicks = [];
+                }
+
+                break;
+            case 4:
+                if (point_clicks.length == n_polygon) {
+                    addPolygon(...point_clicks);
+
+                    point_clicks = [];
+                }
+
+                break;
+        }
+    })
 }
 
 window.onload = main;

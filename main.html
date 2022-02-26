@@ -16,9 +16,10 @@
         </div>
         <div class="column">
             <div id="model">
-                <button onclick="addLine()">Line</button>
-                <button onclick="addRectangle()">Rectangle</button>
-                <button onclick="addPolygon()">Polygon</button>
+                <button onclick="chooseModel(1)">Line</button>
+                <button onclick="chooseModel(2)">Rectangle</button>
+                <!-- <button onclick="chooseModel(3)">Rectangle (bukan sama sisi)</button> -->
+                <button onclick="n_polygon = prompt('Input number of vertex'); chooseModel(4)">Polygon</button>
             </div>
         </div>
     </div>
