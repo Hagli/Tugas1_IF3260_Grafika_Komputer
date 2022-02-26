@@ -1,6 +1,9 @@
 /* eslint no-console:0 consistent-return:0 */
 "use strict";
 
+var gl;
+var colorUniformLocation;
+
 function createShader(gl, type, source) {
     var shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -46,10 +49,16 @@ function resizeCanvasToDisplaySize(canvas) {
     return needResize;
 }
 
-function drawPreAmble(positions) {
-    // Get A WebGL context
-    var canvas = document.querySelector("#c");
-    var gl = canvas.getContext("webgl");
+function render() {
+    // lines
+    for (let i=0; i < lines; i++) {
+        drawLine(lines_vertices[i], lines_colors[i]);
+    }
+}
+
+function main() {
+    var canvas = document.getElementById("c");
+    gl = canvas.getContext("webgl");
     if (!gl) {
         return;
     }
@@ -62,53 +71,36 @@ function drawPreAmble(positions) {
     var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
     var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
 
-    // Link the two shaders into a program
+    // setup GLSL program
     var program = createProgram(gl, vertexShader, fragmentShader);
 
     // look up where the vertex data needs to go.
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-    
+
     // look up uniform locations
     var resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
-    /*  
-    // Create a buffer and put three 2d clip space points in it
-      var positionBuffer = gl.createBuffer();
+    colorUniformLocation = gl.getUniformLocation(program, "u_color");
+
+    // Create a buffer to put three 2d clip space points in
+    var positionBuffer = gl.createBuffer();
+
+    // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     
-      // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions0), gl.STATIC_DRAW);
-    */
-    // code above this line is initialization code.
-    // code below this line is rendering code.
+    resizeCanvasToDisplaySize(gl.canvas);
 
-    if (positions.length == 0) {
-        //resize canvas
-        resizeCanvasToDisplaySize(gl.canvas);
+    // Tell WebGL how to convert from clip space to pixels
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-        // Tell WebGL how to convert from clip space to pixels
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-        // Clear the canvas
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-    }
+    // Clear the canvas
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
     // Tell it to use our program (pair of shaders)
     gl.useProgram(program);
 
     // Turn on the attribute
     gl.enableVertexAttribArray(positionAttributeLocation);
-
-    if (positions.length > 0) {
-
-    // Create a buffer and put three 2d clip space points in it
-    var positionBuffer = gl.createBuffer();
-
-    // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.DYNAMIC_DRAW);
 
     // Bind the position buffer.
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -121,42 +113,9 @@ function drawPreAmble(positions) {
     var offset = 0;        // start at the beginning of the buffer
     gl.vertexAttribPointer(
         positionAttributeLocation, size, type, normalize, stride, offset);
-    }
-    
+
     // set the resolution
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-
-    return gl;
 }
 
-function drawLine(positions) {
-    var gl = drawPreAmble(positions)
-
-    // draw
-    var primitiveType = gl.LINES;
-    var offset = 0;
-    var count = 2;
-    gl.drawArrays(primitiveType, offset, count);
-}
-
-function drawTriangle(positions) {
-    var gl = drawPreAmble(positions)
-
-    // draw
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 3;
-    gl.drawArrays(primitiveType, offset, count);
-}
-
-function drawSquare(positions) {
-    var gl = drawPreAmble(positions)
-
-    // draw
-    var primitiveType = gl.TRIANGLE_FAN;
-    var offset = 0;
-    var count = 4;
-    gl.drawArrays(primitiveType, offset, count);
-}
-
-drawPreAmble([])
+window.onload = main;
