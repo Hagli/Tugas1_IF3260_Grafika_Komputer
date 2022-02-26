@@ -15,6 +15,10 @@
             </div>
         </div>
         <div class="column">
+            <div id="filesystem">
+                <button onclick="save()">Save to file</button>
+                <input type="file" id="load">
+            </div>
             <div id="model">
                 <button onclick="chooseModel(1)">Line</button>
                 <button onclick="chooseModel(2)">Rectangle</button>
@@ -58,6 +62,7 @@ and https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
 for webgl-utils, m3, m4, and webgl-lessons-ui.
 -->
     <script src="./main.js"></script>
+    <script src="./filesystem.js"></script>
     <script src="./line.js"></script>
     <script src="./rectangle.js"></script>
     <script src="./polygon.js"></script>
