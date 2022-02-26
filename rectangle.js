@@ -28,7 +28,6 @@ function addRectangle() {
   // colors sementara random
   rectangles_colors.push([Math.random(), Math.random(), Math.random(), 1]);
 
-  console.log(rectangles_vertices);
   render();
 }
 

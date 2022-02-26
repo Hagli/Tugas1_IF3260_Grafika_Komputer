@@ -59,6 +59,11 @@ function render() {
     for (let i=0; i < rectangles; i++) {
         drawRectangle(rectangles_vertices[i], rectangles_colors[i]);
     }
+
+    // polygons
+    for (let i=0; i < polygons; i++) {
+        drawPolygon(polygons_vertices[i], polygons_colors[i]);
+    }
 }
 
 function main() {
