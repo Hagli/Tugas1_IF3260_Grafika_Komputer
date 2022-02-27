@@ -65,6 +65,7 @@ function getCursorPosition(canvas, evt) {
 }
 
 function render() {
+    console.log(rectangular_colors);
     // lines
     for (let i=0; i < lines; i++) {
         drawLine(lines_vertices[i], lines_colors[i]);
@@ -171,6 +172,8 @@ function main() {
                     var width_size = prompt("Input Width size");
                     var height_size = prompt("Input Height size");
                     addRectangular(point_clicks[0], height_size, width_size);
+                    console.log("aaaa");
+                    // getcolor();
                     point_clicks = [];
                 }
             case 4:

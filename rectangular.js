@@ -24,7 +24,10 @@ function addRectangular(start, height,width) {
     x2, y2,
   ]);
   // colors sementara random
-  rectangular_colors.push([Math.random(), Math.random(), Math.random(), 1]);
+  console.log(selected_color.r);
+  console.log(selected_color.g);
+  console.log(selected_color.b);
+  rectangular_colors.push([selected_color.r, selected_color.g, selected_color.b, 1]);
 
   render();
 }

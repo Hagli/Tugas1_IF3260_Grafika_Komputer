@@ -24,6 +24,11 @@
                 <button onclick="chooseModel(2)">Rectangle</button>
                 <button onclick="chooseModel(3)">Rectangle (bukan sama sisi)</button>
                 <button onclick="n_polygon = prompt('Input number of vertex'); chooseModel(4)">Polygon</button>
+                <div>
+                    <label>color</label>
+                    <input class="input-color-picker" type="color" 
+                           data-id="bg-color" name="color">
+                  </div>
             </div>
         </div>
     </div>
@@ -67,4 +72,5 @@ for webgl-utils, m3, m4, and webgl-lessons-ui.
     <script src="./rectangle.js"></script>
     <script src="./rectangular.js"></script>
     <script src="./polygon.js"></script>
+    <script src="./color.js"></script>
 </body>
