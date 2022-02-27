@@ -10,9 +10,9 @@ function addRectangular(start, height,width) {
   var x1 = start[0]; var y1 = start[1];  
 
   var x2 = Number(x1) + Number(width);
-  x2 = String(x2);
+  //x2 = String(x2);
   var y2 = Number(y1) + Number(height);
-  y2 = String(y2);
+  //y2 = String(y2);
 
   // vertices
   rectangular_vertices.push([

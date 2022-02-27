@@ -10,9 +10,9 @@ function addRectangle(start, edge_size) {
   var x1 = start[0]; var y1 = start[1];  
 
   var x2 = Number(x1) + Number(edge_size);
-  x2 = String(x2);
+  //x2 = String(x2);
   var y2 = Number(y1) + Number(edge_size);
-  y2 = String(y2);
+  //y2 = String(y2);
 
   // vertices
   rectangles_vertices.push([

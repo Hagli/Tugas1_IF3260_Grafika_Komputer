@@ -155,10 +155,44 @@ function main() {
     canvas.addEventListener('mousedown', (evt) => {
         for (let i = 0; i < lines_vertices.length; i++) {
             for (let j = 0; j < lines_vertices[i].length; j = j+2){
-                console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
-                if (Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2) < 4000){
+                //console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
+                if (Math.pow(Number(lines_vertices[i][j])-evt.layerX,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.layerY,2) < 50){
                     drag = true;
                     shape = 0; //line
+                    shape_int = i;
+                    int = j;
+                    return;
+                }
+            }
+        }
+        for (let i = 0; i < rectangles_vertices.length; i++) {
+            for (let j = 0; j < rectangles_vertices[i].length; j = j+2){
+                //console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
+                if (Math.pow(Number(rectangles_vertices[i][j])-evt.layerX,2)+Math.pow(Number(rectangles_vertices[i][j+1])-evt.layerY,2) < 50){
+                    drag = true;
+                    shape = 1; //rectangle
+                    shape_int = i;
+                    int = j;
+                    return;
+                }
+            }
+        }
+        for (let i = 0; i < rectangular_vertices.length; i++) {
+            for (let j = 0; j < rectangular_vertices[i].length; j = j+2){
+                if (Math.pow(Number(rectangular_vertices[i][j])-evt.layerX,2)+Math.pow(Number(rectangular_vertices[i][j+1])-evt.layerY,2) < 50){
+                    drag = true;
+                    shape = 2; //rectangular
+                    shape_int = i;
+                    int = j;
+                    return;
+                }
+            }
+        }
+        for (let i = 0; i < polygons_vertices.length; i++) {
+            for (let j = 0; j < polygons_vertices[i].length; j = j+2){
+                if (Math.pow(Number(polygons_vertices[i][j])-evt.layerX,2)+Math.pow(Number(polygons_vertices[i][j+1])-evt.layerY,2) < 50){
+                    drag = true;
+                    shape = 3; //polygon
                     shape_int = i;
                     int = j;
                     return;
@@ -171,8 +205,60 @@ function main() {
         if (drag){
             switch (shape){
                 case 0:
-                    lines_vertices[shape][int] = evt.x;
-                    lines_vertices[shape][int+1] = evt.y;
+                    lines_vertices[shape_int][int] = evt.layerX;
+                    lines_vertices[shape_int][int+1] = evt.layerY;
+                    render();
+                    break;
+                //may break at times, the one for rectangle
+                case 1:
+                    switch(int){
+                        case 2:
+                            rectangles_vertices[shape_int][8] = evt.layerX;
+                            rectangles_vertices[shape_int][9] = evt.layerY;
+                            break;
+                        case 4:
+                            rectangles_vertices[shape_int][6] = evt.layerX;
+                            rectangles_vertices[shape_int][7] = evt.layerY;
+                            break;
+                        case 6:
+                            rectangles_vertices[shape_int][4] = evt.layerX;
+                            rectangles_vertices[shape_int][5] = evt.layerY;
+                            break;
+                        case 8:
+                            rectangles_vertices[shape_int][2] = evt.layerX;
+                            rectangles_vertices[shape_int][3] = evt.layerY;
+                            break;
+                    }
+                    rectangles_vertices[shape_int][int] = evt.layerX;
+                    rectangles_vertices[shape_int][int+1] = evt.layerY;
+                    render();
+                    break;
+                case 2:
+                    switch(int){
+                        case 2:
+                            rectangular_vertices[shape_int][8] = evt.layerX;
+                            rectangular_vertices[shape_int][9] = evt.layerY;
+                            break;
+                        case 4:
+                            rectangular_vertices[shape_int][6] = evt.layerX;
+                            rectangular_vertices[shape_int][7] = evt.layerY;
+                            break;
+                        case 6:
+                            rectangular_vertices[shape_int][4] = evt.layerX;
+                            rectangular_vertices[shape_int][5] = evt.layerY;
+                            break;
+                        case 8:
+                            rectangular_vertices[shape_int][2] = evt.layerX;
+                            rectangular_vertices[shape_int][3] = evt.layerY;
+                            break;
+                    }
+                    rectangular_vertices[shape_int][int] = evt.layerX;
+                    rectangular_vertices[shape_int][int+1] = evt.layerY;
+                    render();
+                    break;
+                case 3:
+                    polygons_vertices[shape_int][int] = evt.layerX;
+                    polygons_vertices[shape_int][int+1] = evt.layerY;
                     render();
                     break;
             }
