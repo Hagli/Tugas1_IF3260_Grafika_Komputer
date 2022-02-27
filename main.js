@@ -65,7 +65,7 @@ function getCursorPosition(canvas, evt) {
 }
 
 function render() {
-    console.log(rectangular_colors);
+    //console.log(rectangular_colors);
     // lines
     for (let i=0; i < lines; i++) {
         drawLine(lines_vertices[i], lines_colors[i]);
@@ -146,16 +146,57 @@ function main() {
 
     // set the resolution
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
-    
+
+    var drag = false;
+    var shape;
+    var shape_int;
+    var int;
+
+    canvas.addEventListener('mousedown', (evt) => {
+        for (let i = 0; i < lines_vertices.length; i++) {
+            for (let j = 0; j < lines_vertices[i].length; j = j+2){
+                console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
+                if (Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2) < 4000){
+                    drag = true;
+                    shape = 0; //line
+                    shape_int = i;
+                    int = j;
+                    return;
+                }
+            }
+        }
+    })
+
+    canvas.addEventListener('mousemove', (evt) => {
+        if (drag){
+            switch (shape){
+                case 0:
+                    lines_vertices[shape][int] = evt.x;
+                    lines_vertices[shape][int+1] = evt.y;
+                    render();
+                    break;
+            }
+        }
+    })
+
+    canvas.addEventListener('mouseup', (evt) => {
+        drag = false;
+    })
+
     canvas.addEventListener('click', (evt) => {
         point_clicks.push(getCursorPosition(canvas, evt));
 
         switch (model) {
+            case 0:
+                break;
+
             case 1:
                 if (point_clicks.length === 2) {
                     addLine(point_clicks[0], point_clicks[1]);
 
                     point_clicks = [];
+
+                    model = 0;
                 }
                 break;
             case 2:
@@ -164,6 +205,8 @@ function main() {
                     addRectangle(point_clicks[0], edge_size);
 
                     point_clicks = [];
+
+                    model = 0;
                 }
 
                 break;
@@ -175,12 +218,16 @@ function main() {
                     console.log("aaaa");
                     // getcolor();
                     point_clicks = [];
+
+                    model = 0;
                 }
             case 4:
                 if (point_clicks.length == n_polygon) {
                     addPolygon(...point_clicks);
 
                     point_clicks = [];
+
+                    model = 0;
                 }
 
                 break;
