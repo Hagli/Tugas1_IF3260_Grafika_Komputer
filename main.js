@@ -79,6 +79,10 @@ function render() {
     for (let i=0; i < polygons; i++) {
         drawPolygon(polygons_vertices[i], polygons_colors[i]);
     }
+
+    for (let i=0; i < rectangular; i++) {
+        drawRectangle(rectangular_vertices[i], rectangular_colors[i]);
+    }
 }
 
 function main() {
@@ -162,6 +166,13 @@ function main() {
                 }
 
                 break;
+            case 3:
+                if (point_clicks.length ===1){
+                    var width_size = prompt("Input Width size");
+                    var height_size = prompt("Input Height size");
+                    addRectangular(point_clicks[0], height_size, width_size);
+                    point_clicks = [];
+                }
             case 4:
                 if (point_clicks.length == n_polygon) {
                     addPolygon(...point_clicks);
