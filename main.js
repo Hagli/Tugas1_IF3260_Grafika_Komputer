@@ -3,7 +3,7 @@
 
 var gl;
 var colorUniformLocation;
-var model = 1; // default line
+var model = 0; // default line
 var point_clicks = [];
 
 function createShader(gl, type, source) {
@@ -84,6 +84,20 @@ function render() {
     for (let i=0; i < rectangular; i++) {
         drawRectangle(rectangular_vertices[i], rectangular_colors[i]);
     }
+}
+
+//nvert - Number of vertices in the polygon. Whether to repeat the first vertex at the end is discussed below.
+//vertx, verty - Arrays containing the x- and y-coordinates of the polygon's vertices.
+//testx, testy - X- and y-coordinate of the test point.
+function pnpoly( nvert, vertx, verty, testx, testy ) {
+    var i, j, c = false;
+    for( i = 0, j = nvert-1; i < nvert; j = i++ ) {
+        if( ( ( verty[i] > testy ) != ( verty[j] > testy ) ) &&
+            ( testx < ( vertx[j] - vertx[i] ) * ( testy - verty[i] ) / ( verty[j] - verty[i] ) + vertx[i] ) ) {
+                c = !c;
+        }
+    }
+    return c;
 }
 
 function main() {
@@ -273,9 +287,6 @@ function main() {
         point_clicks.push(getCursorPosition(canvas, evt));
 
         switch (model) {
-            case 0:
-                break;
-
             case 1:
                 if (point_clicks.length === 2) {
                     addLine(point_clicks[0], point_clicks[1]);
@@ -316,6 +327,20 @@ function main() {
                     model = 0;
                 }
 
+                break;
+            default:
+                for(let i = 0; i < polygons_vertices.length; i++){
+                    let listX = [];
+                    let listY = [];
+                    for (let j = 0; j < polygons_vertices[i].length; j = j+2){
+                        listX.push(polygons_vertices[i][j]);
+                        listY.push(polygons_vertices[i][j+1]);
+                    }
+                    if (pnpoly(polygons_vertices[i].length/2,listX,listY,evt.layerX,evt.layerY)){
+                        polygons_colors[i] = [selected_color.r, selected_color.g, selected_color.b, 1];
+                        render();
+                    }
+                }
                 break;
         }
     })
