@@ -1,5 +1,6 @@
 <head>
     <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./modal.css">
 </head>
 
 <body>
@@ -24,13 +25,73 @@
                 <button onclick="chooseModel(2)">Rectangle</button>
                 <button onclick="chooseModel(3)">Rectangle (bukan sama sisi)</button>
                 <button onclick="n_polygon = prompt('Input number of vertex'); chooseModel(4)">Polygon</button>
+                <button id="help">Help</button>
                 <div>
                     <label>color</label>
                     <input class="input-color-picker" type="color" 
                            data-id="bg-color" name="color">
-                  </div>
+                    
+                </div>
+                
             </div>
         </div>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2> Cara Menggunakan : </h2>
+              </div>
+              <div class="modal-body">
+                  <h3> Membuat Bentuk </h3>
+                  <p>
+                    <ol> 
+                     <li><b> Line : </b> Klik tombol "Line" lalu klik canvas 2x, klik pertama digunakan untuk posisi vertex pertama, dan klik kedua untuk vertex kedua </li>
+                     <li><b> Rectangle : </b> Klik tombol "Rectangle", lalu klik posisi yang diinginkan pada canvas, masukkan panjang edge(sisi) pada prompt yang muncul, tekan enter</li>
+                     <li><b> Rectangle (bukan sama sisi) : </b> Klik tombol "Rectangle (bukan sama sisi)", lalu klik posisi yang diinginkan pada canvas, masukkan panjang width(lebar) dan height(tinggi) pada prompt yang muncul </li>
+                     <li><b> Polygon : </b> Klik tombol "Polygon", masukkan banyak vertex yang diinginkan(sisi) pada prompt yang muncul, klik pada canvas sesuai dengan jumlah vertex yang diisikan pada prompt, setiap klik akan menjadi posisi vertex </li>
+                      <li> Saat pembuatan bentuk warna dapat diubah dengan memilih warna pada button color </li>
+                   </ol>
+                 </p>
+                  <h3> Menggeser titik kontrol/simpul dengan mouse </h3>
+                   <p>
+                     <ol>
+                      <li> Klik pada vertex bentuk yang sudah dibuat </li>
+                      <li> Drag menggunakan mouse ke posisi yang diinginkan </li>
+                    </ol>
+                  </p>
+                  <h3> Mengubah panjang garis </h3>
+                  <p>
+                    <ol>
+                     <li> Klik pada vertex garis </li>
+                     <li> Drag menggunakan mouse ke panjang yang diinginkan </li>
+                   </ol>
+                 </p>
+                 <h3>Mengubah ukuran sisi persegi</h3>
+                 <p>
+                   <ol>
+                    <li> Klik persegi yang ingin diubah ukurannya </li>
+                    <li> Masukkan ukuran baru pada prompt yang muncul </li>
+                  </ol>
+                </p>
+                <h3> Mengubah warna poligon </h3>
+                <p>
+                  <ol>
+                   <li> Klik warna berbeda pada button "color" </li>
+                   <li> Klik polygon yang ingin diubah warnanya </li>
+                 </ol>
+               </p> 
+               <h3>Save dan load</h3>
+               <p>
+                 <ol>
+                  <li> Untuk menyimpan canvas, klik "Save to file" </li>
+                  <li> Untuk menload canvas, klik "Choose File" </li>
+                </ol>
+              </p>
+              </div>
+            </div>
+          
+          </div>
     </div>
     <script id="vertex-shader-2d" type="notjs">
         attribute vec2 a_position;
@@ -73,4 +134,5 @@ for webgl-utils, m3, m4, and webgl-lessons-ui.
     <script src="./rectangular.js"></script>
     <script src="./polygon.js"></script>
     <script src="./color.js"></script>
+    <script src="./help.js"></script>
 </body>
