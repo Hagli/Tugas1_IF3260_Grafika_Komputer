@@ -329,6 +329,7 @@ function main() {
 
                 break;
             default:
+                // change polygon color
                 for(let i = 0; i < polygons_vertices.length; i++){
                     let listX = [];
                     let listY = [];
@@ -341,6 +342,30 @@ function main() {
                         render();
                     }
                 }
+                // change rectangle size
+                for(let i = 0; i < rectangles_vertices.length; i++){
+                    let listX = [];
+                    let listY = [];
+                    for (let j = 0; j < rectangles_vertices[i].length; j = j+2){
+                        listX.push(rectangles_vertices[i][j]);
+                        listY.push(rectangles_vertices[i][j+1]);
+                    }
+                    if (pnpoly(rectangles_vertices[i].length/2,listX,listY,evt.layerX,evt.layerY)){
+                        var newEdge = prompt("Change selected rectangle edge size to");
+
+                        var newX2 = Number(rectangles_vertices[i][0]) + Number(newEdge);
+                        var newY2 = Number(rectangles_vertices[i][1]) + Number(newEdge);
+
+                        rectangles_vertices[i][2] = newX2; 
+                        rectangles_vertices[i][4] = newX2; 
+
+                        rectangles_vertices[i][5] = newY2;
+                        rectangles_vertices[i][7] = newY2;
+
+                        render();
+                    }
+                }
+
                 break;
         }
     })
