@@ -102,6 +102,7 @@ function pnpoly( nvert, vertx, verty, testx, testy ) {
 
 function main() {
     var canvas = document.getElementById("c");
+    const rect = canvas.getBoundingClientRect();
     gl = canvas.getContext("webgl");
     if (!gl) {
         return;
@@ -169,8 +170,7 @@ function main() {
     canvas.addEventListener('mousedown', (evt) => {
         for (let i = 0; i < lines_vertices.length; i++) {
             for (let j = 0; j < lines_vertices[i].length; j = j+2){
-                //console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
-                if (Math.pow(Number(lines_vertices[i][j])-evt.layerX,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.layerY,2) < 50){
+                if (Math.pow(Number(lines_vertices[i][j])-Math.floor(evt.clientX - rect.left),2)+Math.pow(Number(lines_vertices[i][j+1])-evt.clientY - rect.top,2) < 300){
                     drag = true;
                     shape = 0; //line
                     shape_int = i;
@@ -182,7 +182,7 @@ function main() {
         for (let i = 0; i < rectangles_vertices.length; i++) {
             for (let j = 0; j < rectangles_vertices[i].length; j = j+2){
                 //console.log(Math.pow(Number(lines_vertices[i][j])-evt.x,2)+Math.pow(Number(lines_vertices[i][j+1])-evt.y,2));
-                if (Math.pow(Number(rectangles_vertices[i][j])-evt.layerX,2)+Math.pow(Number(rectangles_vertices[i][j+1])-evt.layerY,2) < 50){
+                if (Math.pow(Number(rectangles_vertices[i][j])-Math.floor(evt.clientX - rect.left),2)+Math.pow(Number(rectangles_vertices[i][j+1])-evt.clientY - rect.top,2) < 300){
                     drag = true;
                     shape = 1; //rectangle
                     shape_int = i;
@@ -193,7 +193,7 @@ function main() {
         }
         for (let i = 0; i < rectangular_vertices.length; i++) {
             for (let j = 0; j < rectangular_vertices[i].length; j = j+2){
-                if (Math.pow(Number(rectangular_vertices[i][j])-evt.layerX,2)+Math.pow(Number(rectangular_vertices[i][j+1])-evt.layerY,2) < 50){
+                if (Math.pow(Number(rectangular_vertices[i][j])-Math.floor(evt.clientX - rect.left),2)+Math.pow(Number(rectangular_vertices[i][j+1])-evt.clientY - rect.top,2) < 300){
                     drag = true;
                     shape = 2; //rectangular
                     shape_int = i;
@@ -204,7 +204,7 @@ function main() {
         }
         for (let i = 0; i < polygons_vertices.length; i++) {
             for (let j = 0; j < polygons_vertices[i].length; j = j+2){
-                if (Math.pow(Number(polygons_vertices[i][j])-evt.layerX,2)+Math.pow(Number(polygons_vertices[i][j+1])-evt.layerY,2) < 50){
+                if (Math.pow(Number(polygons_vertices[i][j])-Math.floor(evt.clientX - rect.left),2)+Math.pow(Number(polygons_vertices[i][j+1])-evt.clientY - rect.top,2) < 300){
                     drag = true;
                     shape = 3; //polygon
                     shape_int = i;
@@ -219,60 +219,60 @@ function main() {
         if (drag){
             switch (shape){
                 case 0:
-                    lines_vertices[shape_int][int] = evt.layerX;
-                    lines_vertices[shape_int][int+1] = evt.layerY;
+                    lines_vertices[shape_int][int] = Math.floor(evt.clientX - rect.left);
+                    lines_vertices[shape_int][int+1] = evt.clientY - rect.top;
                     render();
                     break;
                 //may break at times, the one for rectangle
                 case 1:
                     switch(int){
                         case 2:
-                            rectangles_vertices[shape_int][8] = evt.layerX;
-                            rectangles_vertices[shape_int][9] = evt.layerY;
+                            rectangles_vertices[shape_int][8] = Math.floor(evt.clientX - rect.left);
+                            rectangles_vertices[shape_int][9] = evt.clientY - rect.top;
                             break;
                         case 4:
-                            rectangles_vertices[shape_int][6] = evt.layerX;
-                            rectangles_vertices[shape_int][7] = evt.layerY;
+                            rectangles_vertices[shape_int][6] = Math.floor(evt.clientX - rect.left);
+                            rectangles_vertices[shape_int][7] = evt.clientY - rect.top;
                             break;
                         case 6:
-                            rectangles_vertices[shape_int][4] = evt.layerX;
-                            rectangles_vertices[shape_int][5] = evt.layerY;
+                            rectangles_vertices[shape_int][4] = Math.floor(evt.clientX - rect.left);
+                            rectangles_vertices[shape_int][5] = evt.clientY - rect.top;
                             break;
                         case 8:
-                            rectangles_vertices[shape_int][2] = evt.layerX;
-                            rectangles_vertices[shape_int][3] = evt.layerY;
+                            rectangles_vertices[shape_int][2] = Math.floor(evt.clientX - rect.left);
+                            rectangles_vertices[shape_int][3] = evt.clientY - rect.top;
                             break;
                     }
-                    rectangles_vertices[shape_int][int] = evt.layerX;
-                    rectangles_vertices[shape_int][int+1] = evt.layerY;
+                    rectangles_vertices[shape_int][int] = Math.floor(evt.clientX - rect.left);
+                    rectangles_vertices[shape_int][int+1] = evt.clientY - rect.top;
                     render();
                     break;
                 case 2:
                     switch(int){
                         case 2:
-                            rectangular_vertices[shape_int][8] = evt.layerX;
-                            rectangular_vertices[shape_int][9] = evt.layerY;
+                            rectangular_vertices[shape_int][8] = Math.floor(evt.clientX - rect.left);
+                            rectangular_vertices[shape_int][9] = evt.clientY - rect.top;
                             break;
                         case 4:
-                            rectangular_vertices[shape_int][6] = evt.layerX;
-                            rectangular_vertices[shape_int][7] = evt.layerY;
+                            rectangular_vertices[shape_int][6] = Math.floor(evt.clientX - rect.left);
+                            rectangular_vertices[shape_int][7] = evt.clientY - rect.top;
                             break;
                         case 6:
-                            rectangular_vertices[shape_int][4] = evt.layerX;
-                            rectangular_vertices[shape_int][5] = evt.layerY;
+                            rectangular_vertices[shape_int][4] = Math.floor(evt.clientX - rect.left);
+                            rectangular_vertices[shape_int][5] = evt.clientY - rect.top;
                             break;
                         case 8:
-                            rectangular_vertices[shape_int][2] = evt.layerX;
-                            rectangular_vertices[shape_int][3] = evt.layerY;
+                            rectangular_vertices[shape_int][2] = Math.floor(evt.clientX - rect.left);
+                            rectangular_vertices[shape_int][3] = evt.clientY - rect.top;
                             break;
                     }
-                    rectangular_vertices[shape_int][int] = evt.layerX;
-                    rectangular_vertices[shape_int][int+1] = evt.layerY;
+                    rectangular_vertices[shape_int][int] = Math.floor(evt.clientX - rect.left);
+                    rectangular_vertices[shape_int][int+1] = evt.clientY - rect.top;
                     render();
                     break;
                 case 3:
-                    polygons_vertices[shape_int][int] = evt.layerX;
-                    polygons_vertices[shape_int][int+1] = evt.layerY;
+                    polygons_vertices[shape_int][int] = Math.floor(evt.clientX - rect.left);
+                    polygons_vertices[shape_int][int+1] = evt.clientY - rect.top;
                     render();
                     break;
             }
@@ -337,7 +337,7 @@ function main() {
                         listX.push(polygons_vertices[i][j]);
                         listY.push(polygons_vertices[i][j+1]);
                     }
-                    if (pnpoly(polygons_vertices[i].length/2,listX,listY,evt.layerX,evt.layerY)){
+                    if (pnpoly(polygons_vertices[i].length/2,listX,listY,Math.floor(evt.clientX - rect.left),evt.clientY - rect.top)){
                         polygons_colors[i] = [selected_color.r, selected_color.g, selected_color.b, 1];
                         render();
                     }
@@ -350,7 +350,7 @@ function main() {
                         listX.push(rectangles_vertices[i][j]);
                         listY.push(rectangles_vertices[i][j+1]);
                     }
-                    if (pnpoly(rectangles_vertices[i].length/2,listX,listY,evt.layerX,evt.layerY)){
+                    if (pnpoly(rectangles_vertices[i].length/2,listX,listY,Math.floor(evt.clientX - rect.left),evt.clientY - rect.top)){
                         var newEdge = prompt("Change selected rectangle edge size to");
 
                         var newX2 = Number(rectangles_vertices[i][0]) + Number(newEdge);
